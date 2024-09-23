@@ -2,6 +2,7 @@
 
 import User from '../models/User.js';
 import jwt from 'jsonwebtoken';
+import Stock from '../models/Stock.js'; 
 
 // Generate JWT token
 const generateToken = (user) => {
@@ -14,7 +15,7 @@ const generateToken = (user) => {
 
 // Register new user
 export const registerUser = async (req, res) => {
-  const { name, email, password,type} = req.body;
+  const { name, email, password,StockName} = req.body;
 
   try {
     // Check if user already exists
@@ -22,9 +23,18 @@ export const registerUser = async (req, res) => {
     if (existingUser) {
       return res.status(400).json({ message: 'User already exists' });
     }
-    const image=null
+    
+    const stock=new Stock({name: StockName});
+    await stock.save();
     // Create new user
-    const user = new User({ name, email, password,type,image });
+    const user = new User({
+      name,
+      email,
+      password,
+      type:"admin",
+      image: null, // You can modify this part based on image handling
+      stock_id: stock._id, // Assign the stock's id to the user
+    });
     await user.save();
 
     // Generate JWT token
