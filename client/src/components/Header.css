@@ -1,0 +1,83 @@
+/* Header.css */
+header {
+    position: fixed; /* Keep the header fixed at the top */
+    top: 0; /* Align it to the top */
+    left: 0; /* Align it to the left */
+    right: 0; /* Align it to the right */
+    border-radius: 50px 50px 50px 50px; /* Round left and right sides */
+    background-color: rgba(255, 255, 255, 0.087); /* White with 80% opacity */
+    backdrop-filter: blur(10px); /* Apply a blur effect to the background */
+    padding: 10px 20px; /* Padding */
+    z-index: 1000; /* Ensure it's above other content */
+}
+
+
+/* Custom underline animation */
+.underline-animation {
+    position: relative;
+    display: inline-block;
+}
+
+.underline-animation::after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 2px;
+    background-color: currentColor;
+    left: 0;
+    bottom: -2px;
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.3s ease-in-out;
+}
+
+.underline-animation:hover::after {
+    transform: scaleX(1);
+}
+
+
+/* From Uiverse.io by alexmaracinaru */ 
+#loginbtn {
+    cursor: pointer;
+    color: aliceblue;
+    font-weight: 700;
+    transition: all 0.2s;
+    padding: 5px 15px;
+    border-radius: 100px;
+    background: #030302;
+    border: 1px solid transparent;
+    display: flex;
+    align-items: center;
+    font-size: 15px;
+  }
+  .dark #loginbtn {
+    cursor: pointer;
+    color: rgb(0, 0, 0);
+    font-weight: 700;
+    transition: all 0.2s;
+    padding: 5px 15px;
+    border-radius: 100px;
+    background: #fbfbfb;
+    border: 1px solid transparent;
+    display: flex;
+    align-items: center;
+    font-size: 15px;
+  }
+  #loginbtn:hover {
+    background: #eb042b;
+  }
+  
+  #loginbtn > svg {
+    width: 34px;
+    margin-left: 10px;
+    transition: transform 0.3s ease-in-out;
+  }
+  
+  #loginbtn:hover svg {
+    transform: translateX(5px);
+  }
+  
+  #loginbtn:active {
+    transform: scale(0.95);
+  }
+  
