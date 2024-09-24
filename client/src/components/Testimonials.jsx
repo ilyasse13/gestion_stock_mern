@@ -1,5 +1,5 @@
-import React from 'react'
-
+import React from 'react';
+import { motion } from 'framer-motion'; // Import Framer Motion
 
 const Testimonials = () => {
     const testimonials = [
@@ -46,39 +46,50 @@ const Testimonials = () => {
             ]
         }
     ];
+
     return (
-        <section className="bg-white dark:bg-gray-900">
+        <section className="">
             <div className="py-8 px-4 mx-auto max-w-screen-xl text-center lg:py-16 lg:px-6">
                 <div className="mx-auto max-w-screen-sm">
                     <h2 className="mb-4 text-4xl tracking-tight font-extrabold text-gray-900 dark:text-white">What Our Users Say</h2>
                     <p className="mb-8 font-light text-gray-500 lg:mb-16 sm:text-xl dark:text-gray-400">
                         Discover the experiences of our users who have transformed their projects using our toolkit.
                     </p>
-
                 </div>
-                <div className="grid mb-8 lg:mb-12 lg:grid-cols-2 gap-4"> {/* Added gap for spacing between testimonials */}
-                    {testimonials.map((testimonial, index) => (
-                        <figure key={index} className="flex flex-col justify-center items-center p-8 text-center bg-gray-50 border border-gray-200 rounded-lg dark:bg-gray-800 dark:border-gray-700">
-                            <figcaption className="flex justify-center items-center space-x-3 mb-4">
-                                <img className="w-9 h-9 rounded-full" src={testimonial.image} alt="profile picture" />
-                                <div className="space-y-0.5 font-medium dark:text-white text-left">
-                                    <div>{testimonial.name}</div>
-                                    <div className="text-sm font-light text-gray-500 dark:text-gray-400">{testimonial.position}</div>
-                                </div>
-                            </figcaption>
-                            <blockquote className="mx-auto mb-8 max-w-2xl text-gray-500 dark:text-gray-400">
-                                <h3 className="text-lg font-semibold text-gray-900 dark:text-white">{testimonial.title}</h3>
-                                {testimonial.content.map((paragraph, idx) => (
-                                    <p key={idx} className="my-4">"{paragraph}"</p>
-                                ))}
-                            </blockquote>
-                        </figure>
-                    ))}
+                <div className="grid mb-8 lg:mb-12 lg:grid-cols-2 gap-4">
+                    {testimonials.map((testimonial, index) => {
+                        // Define animation direction
+                        const isLeft = index % 2 === 0; // First and third come from the left
+                        return (
+                            <motion.figure
+                                key={index}
+                                initial={{ opacity: 0, x: isLeft ? -200 : 200 }} // Move from left or right
+                                whileInView={{ opacity: 1, x: 0 }} // Animate to final position when in view
+                                transition={{ duration: 0.8, delay: index * 0.2 }} // Delays between animations
+                                // Slight scale effect on hover
+                                viewport={{ once: true }} // Ensures the animation happens only the first time in view
+                                className="flex flex-col justify-center items-center p-5 text-center bg-black border border-gray-200 rounded-lg dark:bg-gray-50 dark:border-gray-100"
+                            >
+                                <figcaption className="flex justify-center items-center space-x-3 mb-4">
+                                    <img className="w-9 h-9 rounded-full" src={testimonial.image} alt="profile picture" />
+                                    <div className="space-y-0.5 font-medium text-white text-left dark:text-black">
+                                        <div>{testimonial.name}</div>
+                                        <div className="text-sm font-light text-gray-200 dark:text-gray-800">{testimonial.position}</div>
+                                    </div>
+                                </figcaption>
+                                <blockquote className="mx-auto mb-8 max-w-2xl text-gray-400 dark:text-gray-800">
+                                    <h3 className="text-lg font-semibold text-gray-100 dark:text-black">{testimonial.title}</h3>
+                                    {testimonial.content.map((paragraph, idx) => (
+                                        <p key={idx} className="my-4">"{paragraph}"</p>
+                                    ))}
+                                </blockquote>
+                            </motion.figure>
+                        );
+                    })}
                 </div>
-
             </div>
         </section>
-    )
+    );
 }
 
-export default Testimonials
+export default Testimonials;
