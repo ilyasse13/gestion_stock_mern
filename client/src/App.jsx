@@ -9,7 +9,7 @@ const App = () => {
     
          <div className=' overflow-x-hidden '>
       <div className="fixed top-0 -z-10 h-full w-full">
-      <div className={`relative size-full ${isDarkMode ? 'bg-gray-900' : 'bg-white'}`}>
+      <div className={`relative size-full ${isDarkMode ? 'bg-black' : 'bg-white'}`}>
             <div
                 className={`absolute inset-0 ${
                     isDarkMode
