@@ -1,8 +1,13 @@
 import React from 'react'
+import Faqs from '../components/Faqs'
+import Contact from '../components/Contact'
 
 const Support = () => {
   return (
-    <div>Support</div>
+    <div>
+      <Faqs/>
+      <Contact/>
+    </div>
   )
 }
 

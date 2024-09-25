@@ -15,7 +15,7 @@ const generateToken = (user) => {
 
 // Register new user
 export const registerUser = async (req, res) => {
-  const { name, email, password,StockName} = req.body;
+  const { name, email, password, password_confirmation, stockName } = req.body;
 
   try {
     // Check if user already exists
@@ -23,29 +23,38 @@ export const registerUser = async (req, res) => {
     if (existingUser) {
       return res.status(400).json({ message: 'User already exists' });
     }
-    
-    const stock=new Stock({name: StockName});
+
+    // Check if passwords match
+    if (password !== password_confirmation) {
+      return res.status(400).json({ message: 'Passwords do not match' });
+    }
+
+    // Create a new stock
+    const stock = new Stock({ name: stockName });
     await stock.save();
+
     // Create new user
     const user = new User({
       name,
       email,
-      password,
-      type:"admin",
-      image: null, // You can modify this part based on image handling
+      password, // You may want to hash the password before saving it
+      type: "admin",
+      image: null, // Modify this part based on image handling
       stock_id: stock._id, // Assign the stock's id to the user
     });
+
     await user.save();
 
     // Generate JWT token
     const token = generateToken(user);
 
-    res.status(201).json({ token,user });
+    res.status(201).json({ token, user });
   } catch (error) {
     console.error('Error during user registration:', error); // Log error details
     res.status(500).json({ message: 'Server error', error: error.message });
   }
 };
+
 
 // Log in user
 export const loginUser = async (req, res) => {
