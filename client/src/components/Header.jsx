@@ -7,7 +7,7 @@ const Header = () => {
     const { isDarkMode, toggleTheme } = useThemeContext();
     return (
 
-        <header className="flex justify-between mt-3 items-center px-10 border border-black/20  dark:border-white/30 mx-1" >
+        <header className="flex welcome justify-between mt-3 items-center px-10 border border-black/20  dark:border-white/30 mx-1" >
             <div className="text-2xl font-bold">
                 <img src="logo-removebg.png" className='w-16' alt="" />
             </div>

@@ -1,7 +1,41 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { useStateContext } from '../contexts/Authcontext';
+import { API_ENDPOINTS } from '../api/endpoints';
+import axiosClient from '../api/axios';
 
 const Login = () => {
+  const {user, token,setUser,setToken}=useStateContext()
+  const navigate=useNavigate()
+  const [formData, setFormData] = useState({
+    email: '',
+    password: '',
+  });
+
+  const [errorMessage, setErrorMessage] = useState('');
+
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setErrorMessage(''); // Reset error message
+    
+    try {
+      const response = await axiosClient.post(API_ENDPOINTS.LOGIN, formData);
+      setUser(response.data.user);
+      setToken(response.data.token);
+      navigate('/Dashboard'); 
+    } catch (error) {
+      if (error.response) {
+        // Set error message from response
+        setErrorMessage(error.response.data.message || 'Registration failed. Please try again.');
+      } else {
+        setErrorMessage('An error occurred. Please try again.');
+      }
+    }
+  };
   return (
     <div className="max-w-lg w-full mx-auto lg:max-w-full lg:w-4/5">
       <Link className="text-white bg-customRed-400 w-36 rounded py-2 px-4 flex gap-3" to="/">
@@ -16,7 +50,7 @@ const Login = () => {
   Welcome Back! {/* Updated heading */}
 </h1>
 
-      <form action="#" className="mt-8 space-y-6">
+      <form onSubmit={handleSubmit} method='post' className="mt-8 space-y-6">
         <div className="w-full">
           <label
             htmlFor="Email"
@@ -29,6 +63,8 @@ const Login = () => {
             type="email"
             id="Email"
             name="email"
+            value={formData.email}
+            onChange={handleChange}
             placeholder="Enter your email"
             className="mt-1 w-full rounded-md border border-gray-300 focus:border-customRed-500 focus:outline-none focus:ring-2 ring-customRed-200 bg-white text-sm text-gray-700 shadow-md dark:border-gray-700 dark:bg-gray-800 dark:text-gray-200 py-3 px-4"
           />
@@ -46,6 +82,8 @@ const Login = () => {
             type="password"
             id="Password"
             name="password"
+            onChange={handleChange}
+            value={formData.password}
             placeholder="Enter your password"
             className="mt-1 w-full rounded-md border border-gray-300 focus:border-customRed-500 focus:outline-none focus:ring-2 ring-customRed-200 bg-white text-sm text-gray-700 shadow-md dark:border-gray-700 dark:bg-gray-800 dark:text-gray-200 py-3 px-4"
           />
