@@ -5,3 +5,32 @@
 body {
   font-family: 'Poppins', sans-serif;
 }
+/* Customize scrollbar width and style */
+::-webkit-scrollbar {
+  width: 6px; /* Make scrollbar thin */
+  height: 6px; /* For horizontal scrollbar */
+}
+
+/* Remove scrollbar arrows */
+::-webkit-scrollbar-button {
+  display: none;
+}
+
+/* Scrollbar track (the background) */
+::-webkit-scrollbar-track {
+  background: #ffffff09; /* Light background */
+}
+
+/* Scrollbar thumb (the draggable part) */
+::-webkit-scrollbar-thumb {
+  background-color: #eb042b; /* Gray scrollbar thumb */
+  border-radius: 10px; /* Rounded edges */
+}
+
+/* Scrollbar thumb hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555; /* Darker color when hovered */
+}
+.dark ::-webkit-scrollbar-track {
+  background: #000000; /* Black background for dark mode */
+}

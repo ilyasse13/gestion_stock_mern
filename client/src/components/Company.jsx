@@ -3,107 +3,41 @@ import './Company.css'
 
 export default function Company() {
   // Define animation variants
-  
-  const { isDarkMode } = useThemeContext();
+  const companies=[
+    {image:'company6.png',class:'item1'},
+    {image:'company5.png',class:'item2'},
+    {image:'company3.png',class:'item3'},
+    {image:'company2.png',class:'item4'},
+    {image:'company1.png',class:'item5'},
+    {image:'company6.png',class:'item6'},
+    {image:'company5.png',class:'item7'},
+    {image:'company3.png',class:'item8'},
+    {image:'company2.png',class:'item9'},
+    {image:'company1.png',class:'item10'},
+  ]
  
 
   return (
-    <div className=" py-24 sm:py-32">
+    <div className="py-24 sm:py-32">
     <div className="mx-auto max-w-7xl px-6 lg:px-8">
-      <h2 className="text-center text-lg font-semibold leading-8 dark:text-white text-gray-900">
+      <h2 className="text-center text-3xl font-semibold leading-8 dark:text-white text-gray-900">
         Trusted by the world’s most innovative teams
       </h2>
-      <div class="wrapper">
-  <div class="item item1">
-  <img
-            alt="Transistor"
-            src={isDarkMode ? 'https://tailwindui.com/img/logos/158x48/transistor-logo-white.svg':'https://tailwindui.com/img/logos/158x48/transistor-logo-gray-900.svg'}
-            width={158}
-            height={48}
-            className="col-span-2 max-h-12 w-full object-contain lg:col-span-1"
-          />
-  </div>
-  <div class="item item2">
-  <img
-            alt="Reform"
-            src={isDarkMode? "https://tailwindui.com/img/logos/158x48/reform-logo-white.svg": "https://tailwindui.com/img/logos/158x48/reform-logo-gray-900.svg"}
-            width={158}
-            height={48}
-            className="col-span-2 max-h-12 w-full object-contain lg:col-span-1"
-          />
-  </div>
-  <div class="item item3">
-  <img
-            alt="Tuple"
-            src={isDarkMode? "https://tailwindui.com/img/logos/158x48/tuple-logo-white.svg":"https://tailwindui.com/img/logos/158x48/tuple-logo-gray-900.svg"}
-            width={158}
-            height={48}
-            className="col-span-2 max-h-12 w-full object-contain lg:col-span-1"
-          />
-  </div>
-  <div class="item item4">
-  <img
-            alt="SavvyCal"
-            src={isDarkMode? "https://tailwindui.com/img/logos/158x48/savvycal-logo-white.svg":"https://tailwindui.com/img/logos/158x48/savvycal-logo-gray-900.svg"}
-            width={158}
-            height={48}
-            className="col-span-2 max-h-12 w-full object-contain sm:col-start-2 lg:col-span-1"
-          />
-  </div>
-  <div className='item item5'>
-  <img
-            alt="Statamic"
-            src={isDarkMode? "https://tailwindui.com/img/logos/158x48/statamic-logo-white.svg":"https://tailwindui.com/img/logos/158x48/statamic-logo-gray-900.svg"}
-            width={158}
-            height={48}
-            className="col-span-2 col-start-2 max-h-12 w-full object-contain sm:col-start-auto lg:col-span-1"
-          />
-  </div>
-  <div class="item item6">
-  <img
-            alt="Transistor"
-            src={isDarkMode ? 'https://tailwindui.com/img/logos/158x48/transistor-logo-white.svg':'https://tailwindui.com/img/logos/158x48/transistor-logo-gray-900.svg'}
-            width={158}
-            height={48}
-            className="col-span-2 max-h-12 w-full object-contain lg:col-span-1"
-          />
-  </div>
-  <div class="item item7">
-  <img
-            alt="Reform"
-            src={isDarkMode? "https://tailwindui.com/img/logos/158x48/reform-logo-white.svg": "https://tailwindui.com/img/logos/158x48/reform-logo-gray-900.svg"}
-            width={158}
-            height={48}
-            className="col-span-2 max-h-12 w-full object-contain lg:col-span-1"
-          />
-  </div>
-  <div class="item item8">
-  <img
-            alt="Tuple"
-            src={isDarkMode? "https://tailwindui.com/img/logos/158x48/tuple-logo-white.svg":"https://tailwindui.com/img/logos/158x48/tuple-logo-gray-900.svg"}
-            width={158}
-            height={48}
-            className="col-span-2 max-h-12 w-full object-contain lg:col-span-1"
-          />
-  </div>
-  <div class="item item9">
-  <img
-            alt="SavvyCal"
-            src={isDarkMode? "https://tailwindui.com/img/logos/158x48/savvycal-logo-white.svg":"https://tailwindui.com/img/logos/158x48/savvycal-logo-gray-900.svg"}
-            width={158}
-            height={48}
-            className="col-span-2 max-h-12 w-full object-contain sm:col-start-2 lg:col-span-1"
-          />
-  </div>
-  <div className='item item10'>
-  <img
-            alt="Statamic"
-            src={isDarkMode? "https://tailwindui.com/img/logos/158x48/statamic-logo-white.svg":"https://tailwindui.com/img/logos/158x48/statamic-logo-gray-900.svg"}
-            width={158}
-            height={48}
-            className="col-span-2 col-start-2 max-h-12 w-full object-contain sm:col-start-auto lg:col-span-1"
-          />
-  </div>
+      <div className="wrapper">
+        {companies.map((company,i)=>{
+          return (
+            <div className={`item ${company.class}`}>
+            <img
+                      alt="Transistor"
+                      src={company.image}
+                    
+                      className={`col-span-2 ${company.image==='company4.png' ? 'h-40 -mt-5' : 'h-32' }  w-full object-contain lg:col-span-1`}
+                    />
+            </div>
+          )
+        })}
+
+ 
 </div>
     </div>
   </div>

@@ -2,7 +2,7 @@ import React from 'react'
 import { Navigate, Outlet } from 'react-router-dom'
 import { useStateContext } from '../contexts/Authcontext'
 import { Disclosure, DisclosureButton, DisclosurePanel, Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/react'
-import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline'
+import { Bars3Icon, BellIcon, XMarkIcon ,SunIcon ,MoonIcon} from '@heroicons/react/24/outline'
 import { useThemeContext } from '../contexts/ThemeContext'
 import Sidebar from '../components/Sidebar'
 
@@ -25,7 +25,7 @@ function classNames(...classes) {
 
 const DefaultLayout = () => {
   const { token, user } = useStateContext()
-  const { isDarkMode } = useThemeContext()
+  const { isDarkMode,toggleTheme } = useThemeContext()
   if (!token) {
     return <Navigate to="/login" replace={true} />
   }
@@ -74,6 +74,18 @@ const DefaultLayout = () => {
               </div>
               <div className="hidden md:block">
                 <div className="ml-4 flex items-center md:ml-6">
+                <button
+                type="button"
+                onClick={toggleTheme}
+                className={`mr-4 rounded-full ${isDarkMode ? 'bg-yellow-600 text-gray-900': 'bg-gray-400 text-gray-900'} p-1  hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800`}
+                aria-label="Toggle dark/light mode"
+              >
+                {isDarkMode ? (
+                   <SunIcon className='w-5'/>
+                ) : (
+                 <MoonIcon className='w-5'/>
+                )}
+              </button>
                   <button
                     type="button"
                     className="relative rounded-full bg-customRed-300 p-1 text-white  focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 "
@@ -135,6 +147,7 @@ const DefaultLayout = () => {
                   <div className="text-base font-medium leading-none text-white">{user.name}</div>
                   <div className="text-sm font-medium leading-none text-gray-400">{user.email}</div>
                 </div>
+               
                 <button
                   type="button"
                   className="relative ml-auto flex-shrink-0 rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
