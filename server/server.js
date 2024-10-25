@@ -6,6 +6,7 @@ import router from "./routes/Auth.js";
 import path from 'path';
 import { fileURLToPath } from 'url';
 import Productrouter from "./routes/Products.js";
+import cookieParser from "cookie-parser";
 
 // Load environment variables from .env file
 dotenv.config();
@@ -14,7 +15,7 @@ dotenv.config();
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const app = express()
-
+app.use(cookieParser()); // allows us to parse incoming cookies
 const corsOptions = {
   origin: 'http://localhost:3000', // Replace with your frontend URL
   methods: ['GET', 'POST', 'PUT', 'DELETE'],

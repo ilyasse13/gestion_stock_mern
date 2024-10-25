@@ -1,46 +1,44 @@
-import React from 'react'
-import { Navigate, Outlet } from 'react-router-dom'
-import { useStateContext } from '../contexts/Authcontext'
+import React, { useEffect } from 'react'
+import { Navigate, Outlet, useNavigate } from 'react-router-dom'
 import { Disclosure, DisclosureButton, DisclosurePanel, Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/react'
-import { Bars3Icon, BellIcon, XMarkIcon ,SunIcon ,MoonIcon} from '@heroicons/react/24/outline'
+import { Bars3Icon, BellIcon, XMarkIcon, SunIcon, MoonIcon } from '@heroicons/react/24/outline'
 import { useThemeContext } from '../contexts/ThemeContext'
 import Sidebar from '../components/Sidebar'
+import { useAuthStore } from '../store/authStore'
 
-const User = {
-  name: 'Tom Cook',
-  email: 'tom@example.com',
-  imageUrl:
-    'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-}
-
-const userNavigation = [
-  { name: 'Your Profile', href: '#' },
-  { name: 'Settings', href: '#' },
-  { name: 'Sign out', href: '#' },
-]
-
-function classNames(...classes) {
-  return classes.filter(Boolean).join(' ')
-}
 
 const DefaultLayout = () => {
-  const { token, user } = useStateContext()
-  const { isDarkMode,toggleTheme } = useThemeContext()
-  if (!token) {
-    return <Navigate to="/login" replace={true} />
-  }
+  const {  user,logout } = useAuthStore();
+  const navigate= useNavigate()
+  const handleSignOut = async (e) => {
+    e.preventDefault()
+    try {
+      await logout()
+     navigate('/login')
+    } catch (error) {
+      console.error('Error signing out:', error);
+    }
+  };
+  const userNavigation = [
+    { name: 'Your Profile', href: '#' },
+    { name: 'Settings', href: '#' },
+    { name: 'Sign out', onClick: handleSignOut },
+  ]
+ 
+  const { isDarkMode, toggleTheme } = useThemeContext()
+
   return (
     <>
       <div className="min-h-full">
-      <Disclosure as="nav" className={`${isDarkMode ? "bg-black" : "bg-white"} shadow-md`}>
+        <Disclosure as="nav" className={`${isDarkMode ? "bg-black" : "bg-white"} shadow-md`}>
           <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             <div className="flex h-16 items-center justify-between">
               <div className="flex items-center">
                 <div className="flex-shrink-0">
                   <img
                     alt="Your Company"
-                    src="logo-removebg.png"
-                    className=" w-12"
+                    src={isDarkMode ? 'darkmodelogo-removebg-preview.png': 'newlogo-removebg-preview.png'}
+                    className=" w-28"
                   />
                 </div>
                 <div className="hidden md:block">
@@ -74,18 +72,18 @@ const DefaultLayout = () => {
               </div>
               <div className="hidden md:block">
                 <div className="ml-4 flex items-center md:ml-6">
-                <button
-                type="button"
-                onClick={toggleTheme}
-                className={`mr-4 rounded-full ${isDarkMode ? 'bg-yellow-600 text-gray-900': 'bg-gray-400 text-gray-900'} p-1  hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800`}
-                aria-label="Toggle dark/light mode"
-              >
-                {isDarkMode ? (
-                   <SunIcon className='w-5'/>
-                ) : (
-                 <MoonIcon className='w-5'/>
-                )}
-              </button>
+                  <button
+                    type="button"
+                    onClick={toggleTheme}
+                    className={`mr-4 rounded-full ${isDarkMode ? 'bg-yellow-600 text-gray-900' : 'bg-gray-400 text-gray-900'} p-1  hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800`}
+                    aria-label="Toggle dark/light mode"
+                  >
+                    {isDarkMode ? (
+                      <SunIcon className='w-5' />
+                    ) : (
+                      <MoonIcon className='w-5' />
+                    )}
+                  </button>
                   <button
                     type="button"
                     className="relative rounded-full bg-customRed-300 p-1 text-white  focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 "
@@ -101,7 +99,7 @@ const DefaultLayout = () => {
                       <MenuButton className="relative flex max-w-xs items-center rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-400">
                         <span className="absolute -inset-1.5" />
                         <span className="sr-only">Open user menu</span>
-                        <img alt="" src={User.imageUrl} className="h-8 w-8 rounded-full" />
+                        <img alt="" src={user?.image ? user.image : ''} className="h-8 w-8 rounded-full" />
                       </MenuButton>
                     </div>
                     <MenuItems
@@ -111,7 +109,8 @@ const DefaultLayout = () => {
                       {userNavigation.map((item) => (
                         <MenuItem key={item.name}>
                           <a
-                            href={item.href}
+                            href={item.href || '#'}
+                            onClick={item.onClick || undefined} // Add onClick only if it's present
                             className="block px-4 py-2 text-sm text-gray-700 data-[focus]:bg-gray-100"
                           >
                             {item.name}
@@ -141,13 +140,13 @@ const DefaultLayout = () => {
             <div className="border-t border-gray-700 pb-3 pt-4">
               <div className="flex items-center px-5">
                 <div className="flex-shrink-0">
-                  <img alt="" src={User.imageUrl} className="h-10 w-10 rounded-full" />
+                  <img alt="" src={user?.image ? user.image : ''} className="h-10 w-10 rounded-full" />
                 </div>
                 <div className="ml-3">
                   <div className="text-base font-medium leading-none text-white">{user.name}</div>
                   <div className="text-sm font-medium leading-none text-gray-400">{user.email}</div>
                 </div>
-               
+
                 <button
                   type="button"
                   className="relative ml-auto flex-shrink-0 rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
@@ -177,7 +176,7 @@ const DefaultLayout = () => {
           <div className="mx-auto max-w-7xl   flex">
 
             {/* Sidebar */}
-           <Sidebar/>
+            <Sidebar />
 
             {/* Main content */}
             <main className="w-4/5 pl-2 pt-1 ">
@@ -197,3 +196,4 @@ const DefaultLayout = () => {
 }
 
 export default DefaultLayout
+

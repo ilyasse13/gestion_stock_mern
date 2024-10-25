@@ -1,6 +1,9 @@
 import React from 'react'
 
+
 const Dashboard = () => {
+
+ 
   return (
     <div className="px-4 dark:text-white  space-y-4">
     <h2 className="text-2xl font-bold">Lorem Ipsum Content</h2>

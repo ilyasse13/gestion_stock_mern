@@ -9,7 +9,7 @@ const Header = () => {
 
         <header id='lhead' className="flex welcome justify-between mt-3 items-center px-10 border border-black/20  dark:border-white/30 mx-1" >
             <div className="text-2xl font-bold">
-                <img src="logo-removebg.png" className='w-16' alt="" />
+                <img src={isDarkMode ? 'darkmodelogo-removebg-preview.png': 'newlogo-removebg-preview.png'} className='w-24' alt="" />
             </div>
             <nav>
                 <ul className="flex space-x-6">
@@ -69,8 +69,8 @@ const Header = () => {
                
             </div>
             <div className="">
-                <Link to={'/login'}>
-                    <button id='loginbtn' >
+            
+                    <button id='loginbtn' onClick={()=>{ window.location.href = '/login' }} >
                         <span>Log in</span>
                         <svg
                             xmlns="http://www.w3.org/2000/svg"
@@ -87,7 +87,7 @@ const Header = () => {
                         </svg>
                     </button>
 
-                </Link>
+                
 
 
             </div>

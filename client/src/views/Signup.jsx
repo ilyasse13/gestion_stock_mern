@@ -1,47 +1,50 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import axiosClient from '../api/axios';
-import { API_ENDPOINTS } from '../api/endpoints';
-import { useStateContext } from '../contexts/Authcontext';
+import {motion} from 'framer-motion'
+
+import Input from '../components/Input';
+import { CheckIcon, CircleStackIcon, EnvelopeIcon, ExclamationCircleIcon, LockClosedIcon, SunIcon, UserIcon } from '@heroicons/react/24/outline';
+import PasswordStrengthMeter from '../components/PasswordStrengthMeter';
+import { useAuthStore } from '../store/authStore';
 
 
 const Signup = () => {
-  const {user, token,setUser,setToken}=useStateContext()
-  const navigate=useNavigate()
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    password: '',
-    password_confirmation: '',
-    stockName: '',
-  });
+  
+const navigate = useNavigate();
+const { signup, error, isLoading } = useAuthStore();
+const [formData, setFormData] = useState({
+  name: '',
+  email: '',
+  password: '',
+  password_confirmation: '',
+  stockName: '',
+});
+const [errorMessage, setErrorMessage] = useState('');
+const [successMessage, setSuccessMessage] = useState('');
 
-  const [errorMessage, setErrorMessage] = useState('');
-  const [successMessage, setSuccessMessage] = useState('');
 
-  const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
+const handleChange = (e) => {
+  setFormData({ ...formData, [e.target.name]: e.target.value });
+};
+const isPasswordMismatch = formData.password !== formData.password_confirmation;
+const handleSubmit = async (e) => {
+  e.preventDefault();
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setErrorMessage(''); // Reset error message
-    setSuccessMessage(''); // Reset success message
-console.log(formData.stockName)
-    try {
-      const response = await axiosClient.post(API_ENDPOINTS.REGISTER, formData);
-      setUser(response.data.user);
-      setToken(response.data.token);
-      navigate('/Dashboard'); 
-    } catch (error) {
-      if (error.response) {
-        // Set error message from response
-        setErrorMessage(error.response.data.message || 'Registration failed. Please try again.');
-      } else {
-        setErrorMessage('An error occurred. Please try again.');
-      }
-    }
-  };
+  // Client-side validation (optional)
+  if (formData.password !== formData.password_confirmation) {
+    setErrorMessage('Passwords do not match.');
+    return;
+  }
+
+  try {
+    await signup(formData.email, formData.password, formData.name,formData.stockName);
+			navigate("/verify-email");
+  } catch (error) {
+   
+  } finally {
+   
+  }
+};
 
   return (
     <div className="max-w-xl lg:max-w-3xl -mt-10">
@@ -65,8 +68,9 @@ console.log(formData.stockName)
           <label htmlFor="name" className="block text-sm font-medium text-gray-700 dark:text-gray-200">
             Name
           </label>
-          <input
+          <Input
             type="text"
+            icon={UserIcon}
             id="name"
             name="name"
             placeholder="Enter your name"
@@ -80,10 +84,11 @@ console.log(formData.stockName)
           <label htmlFor="email" className="block text-sm font-medium text-gray-700 dark:text-gray-200">
             Email
           </label>
-          <input
+          <Input
             type="email"
             id="email"
             name="email"
+            icon={EnvelopeIcon}
             placeholder="Enter your email"
             value={formData.email}
             onChange={handleChange}
@@ -95,10 +100,11 @@ console.log(formData.stockName)
           <label htmlFor="password" className="block text-sm font-medium text-gray-700 dark:text-gray-200">
             Password
           </label>
-          <input
+          <Input
             type="password"
             id="password"
             name="password"
+            icon={LockClosedIcon}
             placeholder="Enter your password"
             value={formData.password}
             onChange={handleChange}
@@ -110,11 +116,14 @@ console.log(formData.stockName)
           <label htmlFor="password_confirmation" className="block text-sm font-medium text-gray-700 dark:text-gray-200">
             Password Confirmation
           </label>
-          <input
+          <Input
             type="password"
+            icon={LockClosedIcon}
             id="password_confirmation"
             name="password_confirmation"
+            errorIcon={ExclamationCircleIcon}
             placeholder="Confirm your password"
+            isError={isPasswordMismatch} // Check if there's a mismatch
             value={formData.password_confirmation}
             onChange={handleChange}
             className="mt-1 w-full rounded-md border border-gray-300 focus:border-customRed-500 focus:outline-none focus:ring-2 ring-customRed-200 bg-white text-sm text-gray-700 shadow-md dark:border-gray-700 dark:bg-gray-800 dark:text-gray-200 py-2 px-2"
@@ -125,9 +134,10 @@ console.log(formData.stockName)
           <label htmlFor="stockName" className="block text-sm font-medium text-gray-700 dark:text-gray-200">
             Stock Name
           </label>
-          <input
+          <Input
             type="text"
             id="stockName"
+            icon={CircleStackIcon}
             name="stockName"
             placeholder="Enter a name for your stock"
             value={formData.stockName}
@@ -136,13 +146,28 @@ console.log(formData.stockName)
           />
         </div>
 
-        <div className="col-span-6 sm:flex sm:items-center sm:gap-4">
-          <input 
-            type="submit" 
-            value="Create Account"
-            className="inline-block shrink-0 rounded-md border border-customRed-500 bg-customRed-500 px-12 py-2 text-sm font-medium text-white transition hover:bg-transparent hover:text-customRed-500 focus:outline-none focus:ring-2 focus:ring-customRed-400 active:text-customRed-400 dark:hover:bg-customRed-500 dark:hover:text-white"
-          />
-        </div>
+     
+          
+        <div className="col-span-6 flex flex-col items-center gap-4">
+  {error && <p className='text-red-500 font-semibold mt-2'>{error}</p>}
+  
+  <PasswordStrengthMeter password={formData.password} />
+
+  <motion.button
+    className='mt-5 w-1/2 py-3 px-4 bg-gradient-to-r from-customRed-400 to-customRed-500 text-white 
+    font-bold rounded-lg shadow-lg hover:from-customRed-400
+    hover:to-customRed-500 focus:outline-none focus:ring-2 focus:ring-customRed-500 focus:ring-offset-2
+    focus:ring-offset-gray-900 transition duration-200'
+    whileHover={{ scale: 1.02 }}
+    whileTap={{ scale: 0.98 }}
+    type='submit'
+    disabled={isLoading}
+  >
+    {isLoading ? <SunIcon className='animate-spin mx-auto w-7'  /> : "Sign Up"}
+  </motion.button>
+</div>
+
+        
       </form>
     </div>
   );

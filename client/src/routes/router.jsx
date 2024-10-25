@@ -1,4 +1,4 @@
-import { createBrowserRouter } from "react-router-dom";
+import { createBrowserRouter, Navigate } from "react-router-dom";
 import Welcome from "../layouts/Welcome";
 import Home from "../views/Home";
 import GuestLayout from "../layouts/GuestLayout";
@@ -11,55 +11,113 @@ import Pricing from "../views/Pricing";
 import Support from "../views/Support";
 import About from "../views/About";
 
+import EmailVerificationPage from "../views/EmailVerificationPage";
+import ForgotPasswordPage from "../views/ForgotPasswordPage";
+import ResetPasswordPage from "../views/ResetPasswordPage";
+import { useAuthStore } from "../store/authStore";
+
+
+
+const ProtectedRoute = ({ children }) => {
+    const { isAuthenticated, user } = useAuthStore()
+
+    if (!isAuthenticated) {
+        return <Navigate to='/login' replace />;
+    }
+
+    if (!user.isVerified) {
+        return <Navigate to='/verify-email' replace />;
+    }
+
+    return children;
+};
+
+
+const RedirectAuthenticatedUser = ({ children }) => {
+    const { isAuthenticated, user } = useAuthStore()
+
+    if (isAuthenticated && user.isVerified) {
+        return <Navigate to='/Dashboard' replace />;
+    }
+
+    return children;
+};
+
 export const router = createBrowserRouter([
     {
         path: "/",
-        element:<Welcome/>,
+        element: <RedirectAuthenticatedUser>
+            <Welcome />
+        </RedirectAuthenticatedUser>,
         children: [
             {
                 path: "/",
-                element: <Home/>
+                element: <Home />
             },
             {
                 path: "/Features",
-                element: <Features/>
+                element: <Features />
             },
             {
                 path: "/Pricing",
-                element: <Pricing/>
+                element: <Pricing />
             },
             {
                 path: "Support",
-                element: <Support/>
+                element: <Support />
             },
             {
                 path: "/About",
-                element: <About/>
+                element: <About />
             }
         ]
     },
     {
         path: "/",
-        element: <GuestLayout/>,
+        element: <GuestLayout />,
         children: [
             {
-                path:"/login",
-                element: <Login/>
+                path: "/login",
+                element: <RedirectAuthenticatedUser>
+                    <Login />
+                </RedirectAuthenticatedUser>
             },
             {
-                path:'/signUp',
-                element: <Signup/>
+                path: '/signUp',
+                element: <RedirectAuthenticatedUser>
+                    <Signup />
+                </RedirectAuthenticatedUser>
             }
         ]
     },
     {
         path: "/",
-        element: <DefaultLayout/>,
+        element:<ProtectedRoute><DefaultLayout /></ProtectedRoute>,
         children: [
             {
                 path: "/Dashboard",
-                element: <Dashboard/>
+
+                element: 
+                    <Dashboard />
+               
             }
         ]
+    },
+    {
+        path: '/verify-email',
+        element: <EmailVerificationPage />
+    },
+    {
+        path: '/forgot-password',
+        element: <RedirectAuthenticatedUser>
+            <ForgotPasswordPage />
+        </RedirectAuthenticatedUser>
+    },
+    {
+        path: '/reset-password/:token',
+        element:
+            <RedirectAuthenticatedUser>
+                <ResetPasswordPage />
+            </RedirectAuthenticatedUser>
     }
 ])

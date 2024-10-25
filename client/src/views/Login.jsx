@@ -1,40 +1,38 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { useStateContext } from '../contexts/Authcontext';
-import { API_ENDPOINTS } from '../api/endpoints';
-import axiosClient from '../api/axios';
+
+import { useAuthStore } from '../store/authStore';
+import Input from '../components/Input';
+import { EnvelopeIcon, LockClosedIcon } from '@heroicons/react/24/outline';
+
 
 const Login = () => {
-  const {user, token,setUser,setToken}=useStateContext()
-  const navigate=useNavigate()
+
+  const navigate = useNavigate();
+
+  // Form state
   const [formData, setFormData] = useState({
     email: '',
     password: '',
   });
 
+  // Error message state
   const [errorMessage, setErrorMessage] = useState('');
 
+  // Handle form field changes
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
-
+  const {login}=useAuthStore() 
+  // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setErrorMessage(''); // Reset error message
-    
-    try {
-      const response = await axiosClient.post(API_ENDPOINTS.LOGIN, formData);
-      setUser(response.data.user);
-      setToken(response.data.token);
-      navigate('/Dashboard'); 
-    } catch (error) {
-      if (error.response) {
-        // Set error message from response
-        setErrorMessage(error.response.data.message || 'Registration failed. Please try again.');
-      } else {
-        setErrorMessage('An error occurred. Please try again.');
-      }
-    }
+    setErrorMessage('');
+   // Clear previous error messages
+
+      await login(formData.email, formData.password);
+      navigate('/dashboard');
+   
   };
   return (
     <div className="max-w-lg w-full mx-auto lg:max-w-full lg:w-4/5">
@@ -50,53 +48,53 @@ const Login = () => {
   Welcome Back! {/* Updated heading */}
 </h1>
 
-      <form onSubmit={handleSubmit} method='post' className="mt-8 space-y-6">
-        <div className="w-full">
-          <label
-            htmlFor="Email"
-            className="block text-sm font-medium text-gray-700 dark:text-gray-200"
-          >
-            Email
-          </label>
+<div className="flex items-center justify-center min-h-96 ">
+  <form onSubmit={handleSubmit} method="post" className="s w-full max-w-md  shadow-lg rounded-md">
+    <div className="w-full">
+      <label
+        htmlFor="Email"
+        className="block text-sm font-medium text-gray-700 dark:text-gray-200"
+      >
+        Email
+      </label>
+      <Input
+        icon={EnvelopeIcon}
+        type="email"
+        id="Email"
+        name="email"
+        value={formData.email}
+        onChange={handleChange}
+      />
+    </div>
 
-          <input
-            type="email"
-            id="Email"
-            name="email"
-            value={formData.email}
-            onChange={handleChange}
-            placeholder="Enter your email"
-            className="mt-1 w-full rounded-md border border-gray-300 focus:border-customRed-500 focus:outline-none focus:ring-2 ring-customRed-200 bg-white text-sm text-gray-700 shadow-md dark:border-gray-700 dark:bg-gray-800 dark:text-gray-200 py-3 px-4"
-          />
-        </div>
+    <div className="w-full">
+      <label
+        htmlFor="Password"
+        className="block text-sm font-medium text-gray-700 dark:text-gray-200"
+      >
+        Password
+      </label>
+      <Input
+        icon={LockClosedIcon}
+        type="password"
+        id="Password"
+        name="password"
+        value={formData.password}
+        onChange={handleChange}
+        placeholder="Enter your password"
+      />
+    </div>
 
-        <div className="w-full">
-          <label
-            htmlFor="Password"
-            className="block text-sm font-medium text-gray-700 dark:text-gray-200"
-          >
-            Password
-          </label>
+    <div className="col-span-6 sm:flex sm:items-center sm:gap-4">
+      <input
+        type="submit"
+        value="Sign in"
+        className="inline-block w-full rounded-md border border-customRed-500 bg-customRed-500 px-12 py-3 text-sm font-medium text-white transition hover:bg-transparent hover:text-customRed-500 focus:outline-none focus:ring-2 focus:ring-customRed-400 active:text-customRed-400 dark:hover:bg-customRed-500 dark:hover:text-white"
+      />
+    </div>
+  </form>
+</div>
 
-          <input
-            type="password"
-            id="Password"
-            name="password"
-            onChange={handleChange}
-            value={formData.password}
-            placeholder="Enter your password"
-            className="mt-1 w-full rounded-md border border-gray-300 focus:border-customRed-500 focus:outline-none focus:ring-2 ring-customRed-200 bg-white text-sm text-gray-700 shadow-md dark:border-gray-700 dark:bg-gray-800 dark:text-gray-200 py-3 px-4"
-          />
-        </div>
-
-        <div className="col-span-6 sm:flex sm:items-center sm:gap-4">
-          <input
-            type="submit"
-            value="Sign in"
-            className="inline-block w-full rounded-md border border-customRed-500 bg-customRed-500 px-12 py-3 text-sm font-medium text-white transition hover:bg-transparent hover:text-customRed-500 focus:outline-none focus:ring-2 focus:ring-customRed-400 active:text-customRed-400 dark:hover:bg-customRed-500 dark:hover:text-white"
-          />
-        </div>
-      </form>
     </div>
   );
 };

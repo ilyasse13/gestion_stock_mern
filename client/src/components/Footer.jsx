@@ -1,11 +1,13 @@
 import React from 'react'
+import { useThemeContext } from '../contexts/ThemeContext'
 
 const Footer = () => {
+  const {isDarkMode}=useThemeContext()
   return (
     <footer className="">
       <div className="mx-auto max-w-5xl px-4 py-16 sm:px-6 lg:px-8">
         <div className="flex justify-center ">
-          <img src="logo-removebg.png" className='h-20' alt="Company Logo" />
+          <img src={isDarkMode ? 'darkmodelogo-removebg-preview.png': 'newlogo-removebg-preview.png'} className='h-20' alt="Company Logo" />
         </div>
 
         <p className="mx-auto mt-6 max-w-full text-center leading-relaxed text-gray-500">

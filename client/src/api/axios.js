@@ -1,31 +1,13 @@
 import axios from 'axios';
 
-// Create an instance of axios
+// Create an axios instance
 const axiosClient = axios.create({
-    baseURL: import.meta.env.VITE_BACKEND_URL, // Get base URL from environment variable
+    baseURL: import.meta.env.VITE_BACKEND_URL, // Use environment variable for backend URL
     headers: {
         'Content-Type': 'application/json',
     },
+    withCredentials: true, // Ensures cookies like the refresh token are sent with requests
 });
 
-// Request Interceptor
-axiosClient.interceptors.request.use((config) => {
-    const token = sessionStorage.getItem('ACCESS_TOKEN'); // Get token from session storage
-    if (token) {
-        config.headers.Authorization = `Bearer ${token}`; // Set the token in the headers
-    }
-    return config;
-}, (error) => {
-    return Promise.reject(error);
-});
 
-// Response Interceptor
-axiosClient.interceptors.response.use((response) => {
-    return response; // Simply return the response for now
-}, (error) => {
-    // Handle errors globally here (optional)
-    return Promise.reject(error);
-});
-
-// Export the axios instance
 export default axiosClient;

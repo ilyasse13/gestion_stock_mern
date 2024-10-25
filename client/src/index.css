@@ -27,10 +27,6 @@ body {
   border-radius: 10px; /* Rounded edges */
 }
 
-/* Scrollbar thumb hover */
-::-webkit-scrollbar-thumb:hover {
-  background: #555; /* Darker color when hovered */
-}
 .dark ::-webkit-scrollbar-track {
-  background: #000000; /* Black background for dark mode */
+  background: #000000; /* Dark background */
 }

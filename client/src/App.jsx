@@ -1,10 +1,50 @@
-import React from 'react'
-import { RouterProvider } from 'react-router-dom'
-import { router } from './routes/router'
+import React, { useEffect } from 'react'
+import {   Navigate, RouterProvider } from 'react-router-dom'
 import { useThemeContext } from './contexts/ThemeContext'
 
+import Signup from './views/Signup'
+import Login from './views/Login'
+import EmailVerificationPage from './views/EmailVerificationPage'
+import ResetPasswordPage from './views/ResetPasswordPage'
+import Dashboard from './views/Dashboard'
+import ForgotPasswordPage from './views/ForgotPasswordPage'
+import { useAuthStore } from './store/authStore'
+import { router } from './routes/router'
+import LoadingSpinner from './components/LoadingSpinner'
+
+export const ProtectedRoute = ({ children }) => {
+	const { isAuthenticated, user } = useAuthStore();
+
+	if (!isAuthenticated) {
+		return <Navigate to='/login' replace />;
+	}
+
+	if (!user.isVerified) {
+		return <Navigate to='/verify-email' replace />;
+	}
+
+	return children;
+};
+
+// redirect authenticated users to the home page
+export const RedirectAuthenticatedUser = ({ children }) => {
+	const { isAuthenticated, user } = useAuthStore();
+
+	if (isAuthenticated && user.isVerified) {
+		return <Navigate to='/dashboard' replace />;
+	}
+
+	return children;
+};
 const App = () => {
+  const { checkAuth ,isAuthenticated,isCheckingAuth, user } = useAuthStore();
     const {isDarkMode}=useThemeContext()
+    useEffect(() => {
+      checkAuth();
+    }, [checkAuth]);
+    if (isCheckingAuth) return <LoadingSpinner />;
+  
+  
   return (
     
          <div className=' overflow-x-hidden '>
@@ -19,9 +59,10 @@ const App = () => {
             />
         </div>
       </div>
-        <RouterProvider router={router}/>
+     <RouterProvider router={router}/>
+     
     </div>
   )
 }
 
-export default App
+export default App;
