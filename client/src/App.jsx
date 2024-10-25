@@ -42,7 +42,7 @@ const App = () => {
     useEffect(() => {
       checkAuth();
     }, [checkAuth]);
-    if (isCheckingAuth) return <LoadingSpinner />;
+    
   
   
   return (
@@ -59,7 +59,7 @@ const App = () => {
             />
         </div>
       </div>
-     <RouterProvider router={router}/>
+      {isCheckingAuth ? <LoadingSpinner /> : <RouterProvider router={router} />}
      
     </div>
   )
