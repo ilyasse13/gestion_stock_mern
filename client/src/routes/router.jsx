@@ -15,6 +15,10 @@ import EmailVerificationPage from "../views/EmailVerificationPage";
 import ForgotPasswordPage from "../views/ForgotPasswordPage";
 import ResetPasswordPage from "../views/ResetPasswordPage";
 import { useAuthStore } from "../store/authStore";
+import Users from "../views/Users";
+import Products from "../views/Products";
+import Profile from "../views/Profile";
+import Settings from "../views/Settings";
 
 
 
@@ -100,6 +104,22 @@ export const router = createBrowserRouter([
                 element: 
                     <Dashboard />
                
+            },
+            {
+                path: "/Users",
+                element: <Users />
+            },
+            {
+                path: "/Products",
+                element: <Products />
+            },
+            {
+                path: "/Profile",
+                element: <Profile/> 
+            },
+            {
+                path: "/Settings",
+                element: <Settings />
             }
         ]
     },
