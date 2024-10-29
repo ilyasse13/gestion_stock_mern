@@ -10,5 +10,12 @@ export const API_ENDPOINTS = {
    VERIFY_EMAIL: '/auth/verify-email', // Endpoint for user
    CHECK_AUTH:'/auth/check-auth',
    FORGOT_PASSWORD:'/auth/forgot-password',
-    // Add more endpoints as needed
+    
+   // Products end points
+    ALL_PRODUCTS: '/products/:stock_id',
+    ADD_PRODUCT: '/Addproduct',
+    PRODUCT_DETAILS: '/products/:id',
+    UPDATE_PRODUCT: '/Updateproducts/:id',
+    DELETE_PRODUCT: '/Deleteproducts/:id',
+
 };

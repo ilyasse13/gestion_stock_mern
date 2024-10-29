@@ -78,32 +78,30 @@ export const router = createBrowserRouter([
     },
     {
         path: "/",
-        element: <GuestLayout />,
+        element:<RedirectAuthenticatedUser> <GuestLayout /> </RedirectAuthenticatedUser>,
         children: [
             {
                 path: "/login",
-                element: <RedirectAuthenticatedUser>
+                element: 
                     <Login />
-                </RedirectAuthenticatedUser>
+               
             },
             {
                 path: '/signUp',
-                element: <RedirectAuthenticatedUser>
-                    <Signup />
-                </RedirectAuthenticatedUser>
+                element: <Signup />
             }
         ]
     },
     {
         path: "/",
-        element:<ProtectedRoute><DefaultLayout /></ProtectedRoute>,
+        element: <ProtectedRoute><DefaultLayout /></ProtectedRoute>,
         children: [
             {
                 path: "/Dashboard",
 
-                element: 
+                element:
                     <Dashboard />
-               
+
             },
             {
                 path: "/Users",
@@ -115,7 +113,7 @@ export const router = createBrowserRouter([
             },
             {
                 path: "/Profile",
-                element: <Profile/> 
+                element: <Profile />
             },
             {
                 path: "/Settings",

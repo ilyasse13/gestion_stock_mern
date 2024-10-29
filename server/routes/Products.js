@@ -16,12 +16,12 @@ Productrouter.post('/Addproduct', createProduct);
 Productrouter.get('/products/:stock_id', getProductsByStock);
 
 // Route to get a single product by ID
-Productrouter.get('/product/:id', getProductById);
+Productrouter.get('/products/:id', getProductById);
 
 // Route to update a product by ID
-Productrouter.put('/UpdateProduct/:id', updateProduct);
+Productrouter.put('/Updateproducts/:id', updateProduct);
 
 // Route to delete a product by ID
-Productrouter.delete('/DeleteProduct/:id', deleteProduct);
+Productrouter.delete('/Deleteproducts/:id', deleteProduct);
 
 export default Productrouter;

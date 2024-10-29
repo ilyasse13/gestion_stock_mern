@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import { Navigate, Outlet, useNavigate } from 'react-router-dom'
 import { Disclosure, DisclosureButton, DisclosurePanel, Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/react'
-import { Bars3Icon, BellIcon, XMarkIcon, SunIcon, MoonIcon } from '@heroicons/react/24/outline'
+import { Bars3Icon, BellIcon, XMarkIcon, SunIcon, MoonIcon, UserIcon } from '@heroicons/react/24/outline'
 import { useThemeContext } from '../contexts/ThemeContext'
 import Sidebar from '../components/Sidebar'
 import { useAuthStore } from '../store/authStore'
@@ -20,8 +20,8 @@ const DefaultLayout = () => {
     }
   };
   const userNavigation = [
-    { name: 'Your Profile', href: '#' },
-    { name: 'Settings', href: '#' },
+    { name: 'Your Profile', href: '/Profile' },
+    { name: 'Settings', href: '/Settings' },
     { name: 'Sign out', onClick: handleSignOut },
   ]
  
@@ -99,7 +99,14 @@ const DefaultLayout = () => {
                       <MenuButton className="relative flex max-w-xs items-center rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-400">
                         <span className="absolute -inset-1.5" />
                         <span className="sr-only">Open user menu</span>
-                        <img alt="" src={user.image ? user.image : ''} className="h-8 w-8 rounded-full" />
+                        {
+                          user.image ? (
+                            <img alt="" src={user.image } className="h-8 w-8 rounded-full bg-white" />
+                          ):(
+                            <UserIcon className='h-8 w-8 rounded-full border border-black bg-white'/>
+                          )
+                        }
+                        
                       </MenuButton>
                     </div>
                     <MenuItems
@@ -173,15 +180,15 @@ const DefaultLayout = () => {
         </Disclosure>
 
         <section className="shadow">
-          <div className="mx-auto max-w-7xl   flex">
+          <div className="mx-auto max-w-7xl flex">
 
             {/* Sidebar */}
             <Sidebar />
 
             {/* Main content */}
-            <main className="w-4/5 pl-2 pt-1 ">
+            <main className="w-11/12 pl-2 pt-1 bg-white">
 
-              <div className=" h-[483px] overflow-y-auto">
+              <div className=" h-[485px] overflow-y-auto ">
                 {/* This is where your dynamic content will be displayed */}
                 <Outlet />
               </div>
