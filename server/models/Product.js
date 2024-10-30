@@ -7,8 +7,8 @@ const productSchema = new mongoose.Schema({
     required: true,
     trim: true,
   },
-  image:{
-    type:String,
+  image: {
+    type: String,
     trim: true,
   },
   description: {
@@ -25,8 +25,9 @@ const productSchema = new mongoose.Schema({
     default: 0,
   },
   category: {
-    type: String,
-    trim: true,
+    type: mongoose.Schema.Types.ObjectId, // Set the type to ObjectId
+    ref: 'Category', // Reference the Category model
+    required: true, // Make this field required
   },
   stock_id: {
     type: mongoose.Schema.Types.ObjectId,

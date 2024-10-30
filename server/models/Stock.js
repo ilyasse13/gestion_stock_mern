@@ -7,14 +7,19 @@ const stockSchema = new mongoose.Schema({
     required: true,
     trim: true,
   },
-  
+  owner: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User', // Reference to the User model
+    required: true, // If you want this field to be mandatory
+  },
+
+
 }, {
   timestamps: true, // Adds createdAt and updatedAt timestamps
 });
-
-// Pre-save middleware to hash the password before saving
 
 
 const Stock = mongoose.model('Stock', stockSchema);
 
 export default Stock;
+
