@@ -19,6 +19,7 @@ import Users from "../views/Users";
 import Products from "../views/Products";
 import Profile from "../views/Profile";
 import Settings from "../views/Settings";
+import UpdateProduct from "../views/UpdateProduct";
 
 
 
@@ -118,6 +119,10 @@ export const router = createBrowserRouter([
             {
                 path: "/Settings",
                 element: <Settings />
+            },
+            {
+                path: '/updateProduct/:id',
+                element: <UpdateProduct />
             }
         ]
     },

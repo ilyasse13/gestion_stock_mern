@@ -2,11 +2,14 @@ import express from "express"
 import dotenv from 'dotenv';
 import cors from 'cors'; 
 import connectDB from "./config/db.js";
-import router from "./routes/Auth.js";
+
 import path from 'path';
 import { fileURLToPath } from 'url';
-import Productrouter from "./routes/Products.js";
+
 import cookieParser from "cookie-parser";
+import router from "./routes/AuthRoutes.js";
+import Productrouter from "./routes/ProductsRoutes.js";
+import  UserRoutes  from "./routes/UserRoutes.js";
 
 // Load environment variables from .env file
 dotenv.config();
@@ -35,6 +38,7 @@ connectDB();
 // Use routes
 app.use('/api/auth', router);
 app.use('/api',Productrouter);
+app.use('/api',UserRoutes)
 
 
 const port = process.env.PORT || 5000;

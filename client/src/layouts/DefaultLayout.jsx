@@ -34,13 +34,7 @@ const DefaultLayout = () => {
           <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             <div className="flex h-16 items-center justify-between">
               <div className="flex items-center">
-                <div className="flex-shrink-0">
-                  <img
-                    alt="Your Company"
-                    src={isDarkMode ? 'darkmodelogo-removebg-preview.png': 'newlogo-removebg-preview.png'}
-                    className=" w-28"
-                  />
-                </div>
+                
                 <div className="hidden md:block">
                   <div className="ml-72 flex items-center space-x-4">
                     <div className="relative">
@@ -186,7 +180,7 @@ const DefaultLayout = () => {
             <Sidebar />
 
             {/* Main content */}
-            <main className="w-11/12 pl-2 pt-1 bg-white">
+            <main className="w-11/12 pl-2 pt-1 bg-white dark:bg-black">
 
               <div className=" h-[485px] overflow-y-auto ">
                 {/* This is where your dynamic content will be displayed */}

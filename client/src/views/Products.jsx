@@ -2,8 +2,10 @@ import { EyeIcon, PencilSquareIcon, TrashIcon } from '@heroicons/react/24/outlin
 import React, { useEffect, useState } from 'react'
 import { useProductStore } from '../store/ProductStore'
 import { useAuthStore } from '../store/authStore'
+import { useThemeContext } from '../contexts/ThemeContext'
 
 const Products = () => {
+  const { isDarkMode } = useThemeContext()
   const {user}=useAuthStore()
   const {products,fetchProducts,loading,error}=useProductStore()
   useEffect(()=>{
@@ -59,28 +61,28 @@ const Products = () => {
 
           <tbody className="whitespace-nowrap">
             {products.map((product, index) => (
-              <tr className="even:bg-customRed-100">
-              <td className='p-4 text-sm text-black'>
-                <img src={`http://localhost:8000/uploads/${product.image}`} className='w-20' />
+              <tr key={index} className="even:bg-customRed-100">
+              <td className='p-4 text-sm'>
+                <img src={`${import.meta.env.VITE_BACKEND_LINK}/uploads/${product.image}`} className='w-20' />
                 
               </td>
-              <td className="p-4 text-sm text-black">
+              <td className="p-4 text-sm dark:text-white">
                 {product.name}
               </td>
-              <td className="p-4 text-sm text-black">
+              <td className="p-4 text-sm dark:text-white">
                 {product.price}$
               </td>
-              <td className="p-4 text-sm text-black">
+              <td className="p-4 text-sm dark:text-white">
                 {product.quantity}
               </td>
-              <td className="p-4 text-sm text-black">
+              <td className="p-4 text-sm dark:text-white">
                {product.category}
               </td>
               <td className="p-4">
                 <button onClick={()=>{window.location='/'}} className="mr-4 transition transform hover:scale-110 hover:text-green-700 duration-200">
                   <EyeIcon className="text-green-600 w-6 h-6" /> {/* Green Icon */}
                 </button>
-                <button className="mr-4 transition transform hover:scale-110 hover:text-blue-700 duration-200">
+                <button onClick={()=>{window.location=`/updateProduct/${product._id}`}} className="mr-4 transition transform hover:scale-110 hover:text-blue-700 duration-200">
                   <PencilSquareIcon className="text-blue-600 w-6 h-6" /> {/* Blue Icon */}
                 </button>
                 <button className="mr-4 transition transform hover:scale-110 hover:text-red-700 duration-200">
@@ -89,7 +91,6 @@ const Products = () => {
               </td>
             </tr>
             ))}
-            
 
           </tbody>
         </table>

@@ -18,7 +18,7 @@ export const createProduct = (req, res) => {
           quantity: req.body.quantity,
           category: req.body.category,
           stock_id: req.body.stock_id, // Use stock ID from request
-          image: req.file ? `/uploads/${req.file.filename}` : null, // Store image path
+          image: req.file ? req.file.filename : null, // Store image path
         });
   
         // Save product to database

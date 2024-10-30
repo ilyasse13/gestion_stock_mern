@@ -192,3 +192,74 @@ export const WELCOM_EMAIL=`
 </html>
 
 `
+export const ADD_EMAIL_TEMPLATE = `
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome Email</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #ffffff; /* White background */
+            margin: 0;
+            padding: 20px;
+            color: #333; /* Dark text for contrast */
+        }
+        .container {
+            max-width: 600px;
+            margin: auto;
+            background: #ffffff; /* White background for the container */
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            color: #eb042b; /* Brand color for the heading */
+        }
+        p {
+            line-height: 1.6;
+            color: #555; /* Slightly lighter color for paragraph text */
+        }
+        .button {
+            display: inline-block;
+            padding: 1px 2px;
+            color: #eb042b; /* White text on button */
+            text-decoration: none;
+           
+            font-size: medium;
+            text-decoration: underline;
+        }
+        .footer {
+            margin-top: 20px;
+            font-size: 12px;
+            color: #999; /* Lighter color for footer */
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Welcome to the Team!</h1>
+    <p>Dear [USER_NAME],</p>
+    <p>We are excited to inform you that you have been added to our workgroup. Your account has been successfully created.</p>
+    
+    <p><strong>Your Login Details:</strong></p>
+    <p>
+        <strong>Email:</strong> [USER_EMAIL]<br>
+        <strong>Password:</strong> [USER_PASSWORD]
+    </p>
+    
+    <p>Please log in at <a href="[LOGIN_URL]" class="button">Login Here</a> to access your account. We recommend changing your password after your first login for security purposes.</p>
+    
+    <p>If you have any questions or need assistance, feel free to reach out to our support team.</p>
+    
+    <p>Best regards,<br>[ADMIN_NAME]</p>
+</div>
+
+</body>
+</html>
+
+`;
